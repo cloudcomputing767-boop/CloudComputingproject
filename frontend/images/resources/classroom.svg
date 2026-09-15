@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Classroom">
+  <defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eef3f9"/><stop offset="1" stop-color="#dde6f0"/></linearGradient></defs>
+  <rect width="400" height="260" fill="url(#w)"/>
+  <rect x="0" y="196" width="400" height="64" fill="#c9d6e4"/>
+  <!-- whiteboard -->
+  <rect x="96" y="34" width="208" height="92" rx="5" fill="#ffffff" stroke="#b6c4d4" stroke-width="3"/>
+  <path d="M120 66h70M120 82h108M120 98h54" stroke="#9fb2c6" stroke-width="5" stroke-linecap="round"/>
+  <!-- desks -->
+  <g fill="#1f4e79">
+    <rect x="44"  y="160" width="88" height="11" rx="4"/>
+    <rect x="156" y="160" width="88" height="11" rx="4"/>
+    <rect x="268" y="160" width="88" height="11" rx="4"/>
+    <rect x="44"  y="204" width="88" height="11" rx="4"/>
+    <rect x="156" y="204" width="88" height="11" rx="4"/>
+    <rect x="268" y="204" width="88" height="11" rx="4"/>
+  </g>
+  <g fill="#3a6e9e">
+    <rect x="58"  y="171" width="10" height="20" rx="3"/><rect x="108" y="171" width="10" height="20" rx="3"/>
+    <rect x="170" y="171" width="10" height="20" rx="3"/><rect x="220" y="171" width="10" height="20" rx="3"/>
+    <rect x="282" y="171" width="10" height="20" rx="3"/><rect x="332" y="171" width="10" height="20" rx="3"/>
+  </g>
+  <!-- chairs -->
+  <g fill="#7f97b0">
+    <circle cx="88"  cy="150" r="10"/><circle cx="200" cy="150" r="10"/><circle cx="312" cy="150" r="10"/>
+    <circle cx="88"  cy="194" r="10"/><circle cx="200" cy="194" r="10"/><circle cx="312" cy="194" r="10"/>
+  </g>
+</svg>

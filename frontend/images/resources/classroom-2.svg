@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Classroom with air conditioning">
+  <defs><linearGradient id="w2" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#eef6f3"/><stop offset="1" stop-color="#dae8e3"/></linearGradient></defs>
+  <rect width="400" height="260" fill="url(#w2)"/>
+  <rect x="0" y="200" width="400" height="60" fill="#c6dad3"/>
+  <!-- board -->
+  <rect x="58" y="44" width="186" height="86" rx="5" fill="#2f5d4a" stroke="#244a3b" stroke-width="3"/>
+  <path d="M80 74h74M80 92h102M80 110h48" stroke="#94b7a8" stroke-width="5" stroke-linecap="round"/>
+  <!-- air conditioner -->
+  <rect x="288" y="40" width="74" height="30" rx="7" fill="#ffffff" stroke="#b3c9c1" stroke-width="3"/>
+  <path d="M298 62h54" stroke="#b3c9c1" stroke-width="4" stroke-linecap="round"/>
+  <g stroke="#7fb8a4" stroke-width="4" stroke-linecap="round" opacity=".85">
+    <path d="M304 82v14M325 82v20M346 82v14"/>
+  </g>
+  <!-- desks -->
+  <g fill="#1f4e79">
+    <rect x="54"  y="166" width="96" height="11" rx="4"/>
+    <rect x="174" y="166" width="96" height="11" rx="4"/>
+    <rect x="54"  y="210" width="96" height="11" rx="4"/>
+    <rect x="174" y="210" width="96" height="11" rx="4"/>
+    <rect x="294" y="188" width="56" height="11" rx="4"/>
+  </g>
+  <g fill="#7f97b0">
+    <circle cx="102" cy="156" r="10"/><circle cx="222" cy="156" r="10"/>
+    <circle cx="102" cy="200" r="10"/><circle cx="222" cy="200" r="10"/>
+    <circle cx="322" cy="178" r="10"/>
+  </g>
+</svg>

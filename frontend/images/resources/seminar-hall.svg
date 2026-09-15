@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Seminar hall">
+  <defs>
+    <linearGradient id="sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3f5c"/><stop offset="1" stop-color="#1b2a41"/></linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".85"/><stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#sh)"/>
+  <!-- stage screen -->
+  <rect x="86" y="30" width="228" height="98" rx="4" fill="#f4f7fb"/>
+  <path d="M120 60h110M120 80h160M120 100h78" stroke="#b9c9dc" stroke-width="6" stroke-linecap="round"/>
+  <path d="M200 128 L120 200 H280 Z" fill="url(#beam)"/>
+  <!-- stage -->
+  <rect x="60" y="132" width="280" height="10" rx="4" fill="#3d5878"/>
+  <!-- audience rows -->
+  <g fill="#405a7d">
+    <rect x="34" y="166" width="332" height="14" rx="6"/>
+    <rect x="24" y="198" width="352" height="14" rx="6"/>
+    <rect x="14" y="230" width="372" height="14" rx="6"/>
+  </g>
+  <g fill="#6d88ac">
+    <circle cx="80"  cy="160" r="11"/><circle cx="140" cy="160" r="11"/><circle cx="200" cy="160" r="11"/><circle cx="260" cy="160" r="11"/><circle cx="320" cy="160" r="11"/>
+    <circle cx="60"  cy="192" r="11"/><circle cx="130" cy="192" r="11"/><circle cx="200" cy="192" r="11"/><circle cx="270" cy="192" r="11"/><circle cx="340" cy="192" r="11"/>
+    <circle cx="48"  cy="224" r="11"/><circle cx="124" cy="224" r="11"/><circle cx="200" cy="224" r="11"/><circle cx="276" cy="224" r="11"/><circle cx="352" cy="224" r="11"/>
+  </g>
+</svg>

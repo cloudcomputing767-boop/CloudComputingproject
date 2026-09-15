@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | College Resource Booking</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="logo"><div class="logo-mark">&#127979;</div></div>
+      <h1>Create your account</h1>
+      <p class="subtitle">Students and faculty can register here</p>
+
+      <div id="msg"></div>
+
+      <form id="registerForm">
+        <div class="form-row">
+          <label for="fullName">Full name</label>
+          <input type="text" id="fullName" required minlength="2" placeholder="Mohammed Ali">
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="you@college.com" autocomplete="email">
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input type="password" id="password" required minlength="6" placeholder="At least 6 characters" autocomplete="new-password">
+          <div class="hint">Minimum 6 characters.</div>
+        </div>
+
+        <div class="form-row">
+          <label for="role">I am a</label>
+          <select id="role" required>
+            <option value="Student">Student</option>
+            <option value="Faculty">Faculty</option>
+          </select>
+          <div class="hint">Administrator accounts are created by the college IT team only.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Create account</button>
+      </form>
+
+      <p class="auth-footer">
+        Already registered? <a href="login.html">Log in</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script>
+    if (isLoggedIn()) window.location.replace(dashboardFor(getUser().role));
+
+    document.getElementById("registerForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("msg");
+
+      const button = document.getElementById("submitBtn");
+      button.disabled = true;
+      button.textContent = "Creating account...";
+
+      try {
+        // The API creates the account and logs us in straight away.
+        const result = await api.register({
+          fullName: document.getElementById("fullName").value.trim(),
+          email:    document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value,
+          role:     document.getElementById("role").value
+        });
+
+        saveSession(result);
+        window.location.href = dashboardFor(result.role);
+      } catch (error) {
+        showMessage("msg", "error", error.message);
+        button.disabled = false;
+        button.textContent = "Create account";
+      }
+    });
+  </script>
+</body>
+</html>

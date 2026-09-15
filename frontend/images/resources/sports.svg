@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" role="img" aria-label="Basketball court">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe3f5"/><stop offset="1" stop-color="#e3f1f8"/></linearGradient>
+    <linearGradient id="ct"  x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98b4a"/><stop offset="1" stop-color="#c2743a"/></linearGradient>
+  </defs>
+  <rect width="400" height="260" fill="url(#sky)"/>
+  <circle cx="330" cy="46" r="24" fill="#ffe08a"/>
+  <!-- court -->
+  <path d="M40 260 L120 108 H280 L360 260 Z" fill="url(#ct)"/>
+  <g stroke="#ffffff" stroke-width="3" fill="none" opacity=".92">
+    <path d="M120 108 H280"/>
+    <path d="M78 178 H322"/>
+    <ellipse cx="200" cy="178" rx="42" ry="17"/>
+    <path d="M152 108 H248 V140 H152 Z"/>
+  </g>
+  <!-- hoop -->
+  <rect x="192" y="52" width="6" height="58" fill="#7b8a99"/>
+  <rect x="164" y="34" width="62" height="38" rx="3" fill="#ffffff" stroke="#8fa0b0" stroke-width="3"/>
+  <rect x="182" y="50" width="26" height="16" fill="none" stroke="#e2622f" stroke-width="3"/>
+  <path d="M182 70h26" stroke="#e2622f" stroke-width="4" stroke-linecap="round"/>
+  <path d="M184 72l4 12M195 72v14M206 72l-4 12" stroke="#ffffff" stroke-width="2.5"/>
+  <!-- ball -->
+  <circle cx="276" cy="212" r="19" fill="#e2622f"/>
+  <g stroke="#9c3f18" stroke-width="2.5" fill="none">
+    <path d="M257 212h38M276 193v38"/><path d="M262 199c10 8 10 18 0 26M290 199c-10 8-10 18 0 26"/>
+  </g>
+</svg>

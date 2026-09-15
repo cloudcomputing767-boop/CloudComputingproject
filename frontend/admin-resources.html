@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Resources | Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="layout">
+    <div id="sidebar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Manage Resources</h1>
+        <p>Add, edit or deactivate the resources students and faculty can book.</p>
+      </div>
+
+      <div id="msg"></div>
+
+      <div class="card">
+        <div class="card-title" id="formTitle">Add a new resource</div>
+
+        <form id="resourceForm">
+          <input type="hidden" id="resourceId">
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input type="text" id="name" required placeholder="Computer Lab 3">
+            </div>
+            <div class="form-row">
+              <label for="type">Type</label>
+              <input type="text" id="type" required list="typeList" placeholder="Computer Lab">
+              <datalist id="typeList">
+                <option>Classroom</option>
+                <option>Computer Lab</option>
+                <option>Seminar Hall</option>
+                <option>Projector</option>
+                <option>Meeting Room</option>
+                <option>Sports Facility</option>
+              </datalist>
+            </div>
+            <div class="form-row">
+              <label for="location">Location</label>
+              <input type="text" id="location" required placeholder="Computer Science Block">
+            </div>
+            <div class="form-row">
+              <label for="capacity">Capacity</label>
+              <input type="number" id="capacity" required min="1" max="10000" value="30">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="description">Description</label>
+            <textarea id="description" maxlength="400" placeholder="Short description of the resource"></textarea>
+          </div>
+
+          <div class="form-row">
+            <label>Picture</label>
+
+            <div class="upload-zone" id="uploadZone" tabindex="0" role="button"
+                 aria-label="Upload a picture from your computer">
+              <div class="icon">&#128247;</div>
+              <div class="title">Upload a picture from your computer</div>
+              <div class="sub">Click here or drag an image in &mdash; PNG, JPG, WEBP or GIF, up to 2&nbsp;MB</div>
+              <input type="file" id="imageFile" accept="image/png,image/jpeg,image/webp,image/gif">
+            </div>
+            <div id="uploadStatus"></div>
+
+            <div class="picker-divider">or choose a ready-made picture</div>
+
+            <div class="image-picker" id="imagePicker"></div>
+            <input type="text" id="imageUrl" placeholder="images/resources/classroom.svg or https://..."
+                   maxlength="300">
+            <div class="hint">
+              Pick one of the pictures above, or paste the address of any image.
+              Only this address is stored in the database - the picture files live in
+              <code>frontend/images/resources/</code>.
+            </div>
+            <div class="image-preview" id="imagePreview" hidden><img id="imagePreviewImg" alt="Preview"></div>
+          </div>
+
+          <div class="form-row">
+            <label for="isActive">Status</label>
+            <select id="isActive">
+              <option value="true">Active (can be booked)</option>
+              <option value="false">Inactive (hidden from users)</option>
+            </select>
+          </div>
+
+          <div class="btn-row">
+            <button type="submit" class="btn btn-primary" id="saveBtn">Add Resource</button>
+            <button type="button" class="btn btn-secondary" id="cancelBtn" style="display:none">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-title">All resources</div>
+        <div id="list"><p class="empty">Loading&hellip;</p></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/resource-card.js"></script>
+  <script src="js/admin-resources.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Utilization Report | Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="layout">
+    <div id="sidebar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Resource Utilization</h1>
+        <p>Which resources are used most often. Useful when the college decides where to invest.</p>
+      </div>
+
+      <div id="msg"></div>
+      <div class="stat-grid" id="summary"></div>
+
+      <div class="card">
+        <div class="card-title">Bookings per resource</div>
+        <div id="report"><p class="empty">Loading&hellip;</p></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/utilization.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Requests | Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="layout">
+    <div id="sidebar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Booking Requests</h1>
+        <p>Approve or reject the bookings requested by students and faculty.</p>
+      </div>
+
+      <div id="msg"></div>
+
+      <div class="card">
+        <div class="form-grid">
+          <div>
+            <label for="statusFilter">Filter by status</label>
+            <select id="statusFilter">
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="">All bookings</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" id="listTitle">Requests</div>
+        <div id="list"><p class="empty">Loading&hellip;</p></div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/admin-bookings.js"></script>
+</body>
+</html>

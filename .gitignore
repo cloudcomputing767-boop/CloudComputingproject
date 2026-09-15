@@ -1,0 +1,21 @@
+# ---------- .NET build output ----------
+bin/
+obj/
+*.user
+*.suo
+
+# ---------- Local secrets - NEVER commit these ----------
+# Contains your local database password and JWT key.
+# Copy appsettings.Development.example.json instead.
+backend/appsettings.Development.json
+.env
+
+# ---------- Editors / OS ----------
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---------- Logs ----------
+*.log

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources | College Resource Booking</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="layout">
+    <div id="sidebar"></div>
+
+    <main class="main">
+      <div class="page-header">
+        <h1>Resources</h1>
+        <p>Click a picture to check availability and book straight away.</p>
+      </div>
+
+      <div id="msg"></div>
+
+      <div class="card">
+        <div class="form-grid">
+          <div>
+            <label for="search">Search</label>
+            <input type="text" id="search" placeholder="Search by name or location">
+          </div>
+          <div>
+            <label for="typeFilter">Type</label>
+            <select id="typeFilter"><option value="">All types</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div id="resources" class="resource-grid">
+        <p class="empty">Loading resources&hellip;</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/motion.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/resource-card.js"></script>
+  <script src="js/resources.js"></script>
+</body>
+</html>
