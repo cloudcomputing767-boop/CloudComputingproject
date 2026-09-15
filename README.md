@@ -12,6 +12,9 @@ uses the cloud: a **cloud database** (Neon PostgreSQL), a **cloud-hosted API** (
 **authentication**, **role-based access control**, and **real-time availability checking**
 that prevents double booking.
 
+**Live:** <https://cloudcomputingproject-98vu.onrender.com>
+ · API docs: <https://cloudcomputingproject-98vu.onrender.com/swagger>
+
 ---
 
 ## Features
@@ -364,9 +367,18 @@ The heading and the menu are built from the role at runtime.
 
 The API address is written in **one file only**: `frontend/js/config.js`.
 
+The page checks its own address and picks the matching API, so the same files
+work on your machine and in the cloud without editing anything when you switch:
+
 ```js
+const PRODUCTION_API_URL = "https://cloudcomputingproject-98vu.onrender.com/api";
+const LOCAL_API_URL      = "http://localhost:5080/api";
+
+const isLocalMachine =
+  location.hostname === "localhost" || location.hostname === "127.0.0.1";
+
 const CONFIG = {
-  API_BASE_URL: "http://localhost:5080/api"
+  API_BASE_URL: isLocalMachine ? LOCAL_API_URL : PRODUCTION_API_URL
 };
 ```
 
@@ -587,13 +599,9 @@ Create a **Static Site** from the same repository:
 
 Both addresses only exist after the services are created, so this is the last step.
 
-1. In `frontend/js/config.js`, set the API address and push the change:
-
-   ```js
-   const CONFIG = {
-     API_BASE_URL: "https://<your-api>.onrender.com/api"
-   };
-   ```
+1. In `frontend/js/config.js`, set `PRODUCTION_API_URL` to your API address and
+   push the change. Nothing else needs editing — the file already falls back to
+   `localhost` when you run it on your own machine.
 
 2. In the backend service on Render, set `Cors__AllowedOrigins__0` to the static site
    address, for example `https://<your-frontend>.onrender.com`, and let the service
