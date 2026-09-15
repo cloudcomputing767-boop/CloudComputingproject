@@ -29,10 +29,21 @@ if (!string.IsNullOrWhiteSpace(cloudPort))
 //    variable (ConnectionStrings__DefaultConnection), never from the source code.
 // ---------------------------------------------------------------------------
 var connectionString =
-    builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? Environment.GetEnvironmentVariable("DATABASE_URL")
-    ?? throw new InvalidOperationException(
-        "No database connection string. Set ConnectionStrings__DefaultConnection.");
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrWhiteSpace(connectionString))
+    connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+// appsettings.json ships with an EMPTY value on purpose, so that no real
+// password is ever committed. Empty is therefore "not configured" - checking
+// only for null would let the blank value through and fail much later with a
+// confusing error.
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "No database connection string. Set the environment variable "
+        + "ConnectionStrings__DefaultConnection to the address of your database.");
+}
 
 // Connection strings are copied and pasted by hand into a hosting dashboard,
 // so tidy up the usual accidents before trying to use it.
@@ -120,8 +131,29 @@ builder.Services.AddScoped<BookingService>();
 // 3. AUTHENTICATION  (who are you?)  and  AUTHORIZATION  (what may you do?)
 //    Every protected endpoint expects the header:  Authorization: Bearer <token>
 // ---------------------------------------------------------------------------
-var jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException("No JWT key. Set Jwt__Key.");
+// The key that signs the login tokens. Like the connection string, it is left
+// empty in appsettings.json and must come from configuration.
+//
+// Checking the length here matters: an empty or very short key is accepted at
+// startup but makes EVERY request fail later with
+// "IDX10703: key length is zero", which gives no hint about the real cause.
+// HMAC-SHA256 needs at least 256 bits, which is 32 characters.
+var jwtKey = builder.Configuration["Jwt:Key"];
+
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException(
+        "No token signing key. Set the environment variable Jwt__Key to a long "
+        + "random text of at least 32 characters.");
+}
+
+if (jwtKey.Length < 32)
+{
+    throw new InvalidOperationException(
+        $"The token signing key in Jwt__Key is too short ({jwtKey.Length} characters). "
+        + "It must be at least 32 characters, because the signature uses HMAC-SHA256.");
+}
+
 var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "ResourceBookingApi";
 
 builder.Services

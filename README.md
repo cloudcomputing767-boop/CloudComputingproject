@@ -552,13 +552,20 @@ Environment variables (Render → Environment):
 | Key | Value |
 |---|---|
 | `ConnectionStrings__DefaultConnection` | the Neon connection string |
-| `Jwt__Key` | any long random text, at least 32 characters |
+| `Jwt__Key` | any long random text, **at least 32 characters** (required) |
 | `Jwt__Issuer` | `ResourceBookingApi` |
 | `Seed__AdminEmail` | `admin@college.com` |
 | `Seed__AdminPassword` | the password for the seeded admin account |
 | `Cors__AllowedOrigins__0` | the frontend address (filled in at step 4) |
 
 `PORT` is set by Render automatically, and `Program.cs` already listens on it.
+
+> `ConnectionStrings__DefaultConnection` and `Jwt__Key` are both **required**. They are
+> deliberately left empty in `appsettings.json` so no secret is ever committed, which
+> means the service cannot start until you set them on Render. If either is missing the
+> API stops immediately and says which one — it does not start in a half-working state.
+>
+> Generate a key with `openssl rand -base64 48`.
 
 When the service is live, check `https://<your-api>.onrender.com/health` and
 `https://<your-api>.onrender.com/swagger`.
