@@ -1,0 +1,10 @@
+# Keep the build context small and never copy local secrets into the image.
+bin/
+obj/
+appsettings.Development.json
+.env
+*.user
+.vs/
+.vscode/
+.idea/
+.DS_Store

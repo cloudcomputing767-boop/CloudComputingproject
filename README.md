@@ -44,7 +44,7 @@ that prevents double booking.
 | Data access | Entity Framework Core |
 | Database | PostgreSQL |
 | Cloud database | Neon |
-| Cloud hosting | Render |
+| Cloud hosting | Render (Docker container) |
 | Authentication | JWT (JSON Web Tokens) |
 | API documentation | Swagger / OpenAPI |
 
@@ -327,6 +327,7 @@ cloud-resource-booking/
 │   │   └── BookingService.cs       availability / overlap logic
 │   ├── Migrations/                 EF Core migrations
 │   ├── Program.cs                  startup: database, auth, CORS, Swagger
+│   ├── Dockerfile                  how Render builds and runs the API
 │   ├── appsettings.json
 │   └── appsettings.Development.example.json
 │
@@ -506,21 +507,95 @@ Two rules were followed so the animation never gets in the way:
 GitHub  →  Neon PostgreSQL  →  Render
 ```
 
-1. **GitHub** — push the repository. `.gitignore` keeps
-   `appsettings.Development.json` out, so no password is published.
-2. **Neon** — create a project and copy the connection string it gives you.
-3. **Render** — create a Web Service from the GitHub repository:
-   - Root directory: `backend`
-   - Build command: `dotnet publish -c Release -o out`
-   - Start command: `dotnet out/backend.dll`
-   - Environment variables (see `.env.example`):
-     `ConnectionStrings__DefaultConnection`, `Jwt__Key`,
-     `Cors__AllowedOrigins__0`, `Seed__AdminPassword`
-   - Render sets `PORT` itself; the application already reads it.
-4. On first start the API creates its tables in Neon and seeds the demo data.
-5. **Frontend** — put the `frontend` folder on any static host and set
-   `API_BASE_URL` in `frontend/js/config.js` to the Render URL.
-   Add that frontend address to `Cors__AllowedOrigins__0` on Render.
+### Why the backend needs Docker
 
-Never paste a real connection string or password into the repository —
-they belong in Render's environment variables only.
+Render runs Node, Python, Ruby, Go, Rust and Elixir by itself, but it has **no
+built-in support for .NET**. For .NET it runs a *container* instead, so the project
+includes `backend/Dockerfile` — a short recipe telling Render how to build and start
+the API. Render reads that file automatically; there is no build or start command to
+type.
+
+The Dockerfile is written in two stages: the first uses the full .NET SDK to compile
+the project, and the second keeps only the smaller ASP.NET runtime plus the compiled
+output, so the image that actually runs stays small.
+
+### 1. Neon — the cloud database
+
+1. Create a free project at [neon.tech](https://neon.tech).
+2. Copy the connection string from the dashboard. It looks like
+   `Host=ep-xxx.neon.tech;Database=neondb;Username=...;Password=...;SSL Mode=VerifyFull;Channel Binding=Require`
+   (Neon's `postgresql://...` URL form works too — the API converts it.)
+3. Keep it out of the repository. It only ever goes into Render's environment
+   variables.
+
+You do **not** have to create the tables yourself. The API applies its migrations and
+inserts the demo data the first time it starts.
+
+### 2. Render — the backend API
+
+Create a **Web Service** from the GitHub repository:
+
+| Setting | Value |
+|---|---|
+| Language / Runtime | **Docker** |
+| Root Directory | `backend` |
+| Dockerfile Path | `backend/Dockerfile` |
+| Build / Start command | *leave empty — the Dockerfile handles both* |
+
+Environment variables (Render → Environment):
+
+| Key | Value |
+|---|---|
+| `ConnectionStrings__DefaultConnection` | the Neon connection string |
+| `Jwt__Key` | any long random text, at least 32 characters |
+| `Jwt__Issuer` | `ResourceBookingApi` |
+| `Seed__AdminEmail` | `admin@college.com` |
+| `Seed__AdminPassword` | the password for the seeded admin account |
+| `Cors__AllowedOrigins__0` | the frontend address (filled in at step 4) |
+
+`PORT` is set by Render automatically, and `Program.cs` already listens on it.
+
+When the service is live, check `https://<your-api>.onrender.com/health` and
+`https://<your-api>.onrender.com/swagger`.
+
+> On Render's free plan the service sleeps when unused, so the first request after a
+> pause can take around a minute. That is normal — worth knowing before a live demo.
+
+### 3. Render — the frontend
+
+Create a **Static Site** from the same repository:
+
+| Setting | Value |
+|---|---|
+| Root Directory | `frontend` |
+| Build Command | *leave empty* |
+| Publish Directory | `.` |
+
+### 4. Connect the two
+
+Both addresses only exist after the services are created, so this is the last step.
+
+1. In `frontend/js/config.js`, set the API address and push the change:
+
+   ```js
+   const CONFIG = {
+     API_BASE_URL: "https://<your-api>.onrender.com/api"
+   };
+   ```
+
+2. In the backend service on Render, set `Cors__AllowedOrigins__0` to the static site
+   address, for example `https://<your-frontend>.onrender.com`, and let the service
+   restart.
+
+CORS is what allows the browser to call an API on a different address. If the frontend
+address is missing from that list, every request is blocked by the browser — that is
+the usual cause of "it worked locally but not after deploying".
+
+### Keeping secrets out of the repository
+
+`.gitignore` excludes `appsettings.Development.json`, so local database passwords are
+never published. Production values live only in Render's environment variables.
+`.env.example` lists the names that have to be set, with no values.
+
+If a real password is ever pasted somewhere public, change it: in Neon, reset the role
+password and update `ConnectionStrings__DefaultConnection` on Render.
