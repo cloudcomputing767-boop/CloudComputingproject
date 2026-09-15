@@ -34,13 +34,59 @@ var connectionString =
     ?? throw new InvalidOperationException(
         "No database connection string. Set ConnectionStrings__DefaultConnection.");
 
+// Connection strings are copied and pasted by hand into a hosting dashboard,
+// so tidy up the usual accidents before trying to use it.
+connectionString = CleanConnectionString(connectionString);
+
 // Neon (and Render) hand out the connection string as a URL:
 //     postgresql://user:password@host/database?sslmode=require
 // Npgsql expects the "Host=...;Username=...;" style, so we translate it here.
 connectionString = NormalizePostgresConnectionString(connectionString);
 
+// Check it now, while we can still explain the problem clearly. Without this
+// the application fails much later with a message about "index 179", which
+// says nothing useful to whoever is deploying it.
+try
+{
+    _ = new Npgsql.NpgsqlConnectionStringBuilder(connectionString);
+}
+catch (Exception ex)
+{
+    throw new InvalidOperationException(
+        "The database connection string could not be understood. Copy it from Neon "
+        + "WITHOUT any surrounding quotes and without a trailing comma - the value "
+        + "should begin with \"Host=\" or \"postgresql://\". "
+        + $"(Original error: {ex.Message})");
+}
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+/// <summary>
+/// Removes the decoration that comes with a copied connection string.
+///
+/// Neon shows the value inside a C# snippet, like:
+///     "Host=...;Database=neondb;...;Channel Binding=Require;",
+/// If that whole line is pasted into a hosting dashboard, the quotation marks
+/// and the comma end up inside the value and Npgsql cannot read it.
+/// </summary>
+static string CleanConnectionString(string value)
+{
+    value = value.Trim();
+
+    // A trailing comma left over from the snippet.
+    if (value.EndsWith(','))
+        value = value[..^1].TrimEnd();
+
+    // Wrapping quotes, single or double.
+    if (value.Length >= 2
+        && ((value[0] == '"' && value[^1] == '"') || (value[0] == '\'' && value[^1] == '\'')))
+    {
+        value = value[1..^1];
+    }
+
+    return value.Trim();
+}
 
 static string NormalizePostgresConnectionString(string value)
 {

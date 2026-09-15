@@ -525,6 +525,11 @@ output, so the image that actually runs stays small.
 2. Copy the connection string from the dashboard. It looks like
    `Host=ep-xxx.neon.tech;Database=neondb;Username=...;Password=...;SSL Mode=VerifyFull;Channel Binding=Require`
    (Neon's `postgresql://...` URL form works too — the API converts it.)
+
+   > Neon displays the value inside a C# snippet, so what you copy may look like
+   > `"Host=...;Channel Binding=Require;",` — **paste only the part between the
+   > quotation marks**, with no quotes and no trailing comma. The API strips them
+   > if they slip through, and tells you plainly if the value still cannot be read.
 3. Keep it out of the repository. It only ever goes into Render's environment
    variables.
 
